@@ -9,14 +9,14 @@ return {
             mocha = {
                 base = "#000000",
 --              mantle = "#000000",
---              crust = "#000000",
+--				crust = "#000000",
             },
         },
         integrations = {
             cmp = true,
             mason = true,
             treesitter = true,
-            telescope = true,
+            telescope = { enabled = true } ,
             native_lsp = {
                 enabled = true,
                 virtual_text = {
@@ -36,5 +36,8 @@ return {
                 },
             },
         }
-    }
+    },
+--	config = function ()
+--		vim.cmd.colorscheme 'catppuccin-mocha'
+--	end
 }

@@ -1,6 +1,6 @@
-
-
--- bootstrapper
+-- ============ --
+-- bootstrapper --
+-- ============ --
 
 local lazypath = vim.fn.stdpath("data") .. "/lazy/lazy.nvim"
 if not vim.loop.fs_stat(lazypath) then
@@ -15,22 +15,33 @@ if not vim.loop.fs_stat(lazypath) then
 end
 vim.opt.rtp:prepend(lazypath)
 
+vim.g.netrw_winsize = 30
 
 -- nvim configuration
 
 vim.g.mapleader = " "
+vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.opt.nu = true
 vim.opt.relativenumber = true
 vim.opt.incsearch = true
 vim.opt.hlsearch = false
 
+-- substitute preview window
+vim.opt.inccommand = "split"
+
+vim.opt.ignorecase = true
+vim.opt.smartcase = true
+
 vim.opt.tabstop = 4
 vim.opt.softtabstop = 4
 vim.opt.shiftwidth = 4
 --vim.opt.expandtab = true
+vim.opt.virtualedit = "block"
+vim.opt.showtabline = 0
 
 vim.opt.smartindent = true
 vim.opt.termguicolors = true
+vim.opt.guifont = "FiraCode Nerd Font Mono:h14"
 
 vim.opt.scrolloff = 5
 
@@ -38,17 +49,36 @@ vim.opt.scrolloff = 5
 -- vim.keymap.set('n', '<C-.>', ':Lazy<CR>')
 vim.opt.splitright = true
 vim.opt.splitbelow = true
+
 vim.opt.laststatus = 3
 vim.opt.whichwrap = "<,>,[,]"
 -- vim.opt.fillchars = {
 --    vert = '❘'
 -- }
+
+vim.opt.list = true
+vim.opt.listchars = { leadmultispace = "┃   ", tab = "┃ ",}
 vim.cmd[[hi WinSeparator guibg=None]]
+
+-- lsp handlers
+
+-- vim.lsp.handlers["textDocument/hover"] = vim.lsp.with(
+--   vim.lsp.handlers.hover, {
+--     border = "rounded"
+--   }
+-- )
+-- vim.lsp.handlers["textDocument/signatureHelp"] = vim.lsp.with(
+--   vim.lsp.handlers.signature_help, {
+--     border = "rounded"
+--   }
+-- )
 
 require'keybinds'
 
 -- Lazy - plugins manager
 
-require("lazy").setup({import = 'plugins'})
+require("lazy").setup({import = 'plugins'}, {
+	ui = { border = "rounded" }
+})
 
 vim.cmd.colorscheme 'catppuccin-mocha'

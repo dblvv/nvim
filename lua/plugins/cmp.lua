@@ -24,6 +24,10 @@ return {
                         require("luasnip").lsp_expand(args.body)
                     end,
                 },
+				window = {
+					completion = cmp.config.window.bordered{ border = { "╭", " ", "╮", "│", "╯", " ", "╰", "│" } },
+					documentation = cmp.config.window.bordered{ border = { "╭", " ", "╮", "│", "╯", " ", "╰", "│" } },
+				},
                 mapping = cmp.mapping.preset.insert({
                     ['<C-u>'] = cmp.mapping.scroll_docs(-4), -- Up
                     ['<C-d>'] = cmp.mapping.scroll_docs(4),  -- Down
@@ -69,61 +73,97 @@ return {
         dependencies = { "williamboman/mason-lspconfig.nvim" },
         config = function()
             -- importing mason & mason-lspconfig
-
-            local mason = require 'mason'
-            local mason_lspconfig = require 'mason-lspconfig'
-
-            mason.setup({
+            require'mason'.setup{
                 ui = {
                     icons = {
                         package_installed = "✓",
                         package_pending = "➜",
                         package_uninstalled = "✗"
-                    }
-                }
-            })
-            mason_lspconfig.setup {
-                ensure_installed = { "lua_ls", "clangd", "jdtls" },
+                    },
+					border = "rounded"
+                },
+				PATH = "prepend"
+            }
+            require'mason-lspconfig'.setup {
+                ensure_installed = { "pyright", "clangd", "lua_ls", "html", "cssls", "tsserver", "jdtls" },
             }
         end
     },
+
+	-- tmp neodev --
+
 
     -- lsp
 
     {
         "neovim/nvim-lspconfig",
-        dependencies = { 'hrsh7th/cmp-nvim-lsp' },
+        dependencies = {
+			'hrsh7th/cmp-nvim-lsp',
+			{ "folke/neodev.nvim", opts = {} }
+		},
         config = function()
-            local lspconfig = require('lspconfig')
-            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+            local lspconfig = require'lspconfig'
+            local capabilities = require'cmp_nvim_lsp'.default_capabilities()
 
             -- Global mappings.
             -- See `:help vim.diagnostic.*` for documentation on any of the below functions
             vim.keymap.set('n', '<space>e', vim.diagnostic.open_float)
             vim.keymap.set('n', '[d', vim.diagnostic.goto_prev)
             vim.keymap.set('n', ']d', vim.diagnostic.goto_next)
-            vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
+			vim.keymap.set('n', '<space>q', vim.diagnostic.setloclist)
 
+			-- border
+			vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#000000]]
+			-- To instead override globally
+			local orig_util_open_floating_preview = vim.lsp.util.open_floating_preview
+			function vim.lsp.util.open_floating_preview(contents, syntax, opts, ...)
+				opts = opts or {}
+				opts.border = opts.border or { "╭", " ", "╮", "│", "╯", " ", "╰", "│" }
+				return orig_util_open_floating_preview(contents, syntax, opts, ...)
+			end
+			require('lspconfig.ui.windows').default_options.border = "rounded"
+
+			-- setting up language servers
+            -- ensure_installed = { "clangd", "lua_ls", "jdtls" }, -- "html", "cssls",
+            lspconfig.pyright.setup {
+				capabilities = capabilities
+			}
+
+            lspconfig.clangd.setup {
+                capabilities = capabilities
+            }
 
             lspconfig.lua_ls.setup {
                 capabilities = capabilities,
                 settings = {
                     Lua = {
-                        diagnostics = {
-                            globals = { "vim" }
-                        }
+						completion = { callSnippet = "Replace" },
+						diagnostics = { disable = { "missing-fields" } }
                     }
                 }
             }
-            lspconfig.clangd.setup {
-                capabilities = capabilities
-            }
-            lspconfig.jdtls.setup{
-            root_dir = function ()
-                    vim.fn.getcwd()
-            end}
-            --            lspconfig.jdtls.setup {
 
+            lspconfig.jdtls.setup{
+                capabilities = capabilities,
+--				root_dir = function ()
+--                    vim.fn.getcwd()
+--				end,
+			}
+
+			lspconfig.html.setup {
+				capabilities = capabilities,
+			}
+
+			lspconfig.cssls.setup {
+				capabilities = capabilities,
+			}
+
+			lspconfig.tsserver.setup {
+				capabilities = capabilities,
+			}
+
+
+			-- attaching lsp
             vim.api.nvim_create_autocmd('LspAttach', {
                 group = vim.api.nvim_create_augroup('UserLspConfig', {}),
                 callback = function(ev)

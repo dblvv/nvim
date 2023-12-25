@@ -4,7 +4,7 @@ return {
         require("lualine").setup {
             options = {
                 theme = 'catppuccin-mocha',
-                component_separators = { left = '', right = '|' },
+                component_separators = { left = '|', right = '|' },
                 section_separators = ''
             },
             sections = {
