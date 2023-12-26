@@ -58,7 +58,9 @@ vim.opt.whichwrap = "<,>,[,]"
 
 vim.opt.list = true
 vim.opt.listchars = { leadmultispace = "┃   ", tab = "┃ ",}
-vim.cmd[[hi WinSeparator guibg=None]]
+-- vim.cmd[[hi WinSeparator guibg=None]]
+vim.api.nvim_set_hl(0, "WinSeparator", { bg = "None" })
+vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#000000]]
 
 -- lsp handlers
 

@@ -61,5 +61,5 @@ vim.keymap.set('i', 'kj', '<Esc>')
 
 -- lsp testing --
 
-vim.keymap.set('n', '<leader>i', ':LspInfo<CR>')
-vim.keymap.set('n', '<leader>z', ':Lazy<CR>')
+vim.keymap.set('n', '<leader>i', '<Cmd>LspInfo<CR>')
+vim.keymap.set('n', '<leader>z', '<Cmd>Lazy<CR>')
