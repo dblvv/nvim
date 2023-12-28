@@ -10,15 +10,22 @@ return {
 		},
 		config = function()
 			local actions = require 'telescope.actions'
+			-- local trouble = require("trouble.providers.telescope")
 			require 'telescope'.setup {
 				extensions = {
 					["ui-select"] = { require "telescope.themes".get_dropdown {} }
 				},
 				defaults = {
-					mappings = { i = {
+					mappings = {
+						i = {
 						["<C-q>"] = actions.smart_send_to_qflist,
-						["<M-q>"] = actions.smart_send_to_loclist
-					}},
+						["<M-q>"] = actions.smart_send_to_loclist,
+						-- ["<c-t>"] = trouble.open_with_trouble 
+						},
+						-- n = {
+						-- 	["<c-t>"] = trouble.open_with_trouble 
+						-- }
+					},
 					layout_config ={
 						horizontal = {
 							width = 0.9,

@@ -1,5 +1,6 @@
 return {
     'nvim-lualine/lualine.nvim',
+    dependencies = { 'nvim-tree/nvim-web-devicons' },
     config = function()
         require("lualine").setup {
             options = {
@@ -8,15 +9,16 @@ return {
                 section_separators = ''
             },
             sections = {
-                lualine_a = { 'buffers' },
+                lualine_a = { { 'buffers', use_mode_colors = true } },
               --lualine_b = { 'mode' },
-                lualine_b = { 'branch', 'diffs', 'diagnostics', },
                 lualine_c = {},
+				lualine_x = {},
+				lualine_y = { 'encoding', 'fileformat', 'progress' }
             },
             inactive_sections = {
               --lualine_b = { 'branch' }
             },
-            globalstatus = true
+            globalstatus = true,
         }
     end
 }

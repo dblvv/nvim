@@ -43,21 +43,22 @@ vim.keymap.set('n', 'S', ':%s//gc<left><left><left>')
 
 -- buffers / splits related --
 
-vim.keymap.set('n', '<leader>j', ':bprevious<CR>')
-vim.keymap.set('n', '<leader>k', ':bnext<CR>')
-vim.keymap.set('n', '<leader>t', ':b#<CR>')
-vim.keymap.set('n', '<leader>d', ':bdelete<CR>')
+vim.keymap.set('n', '<leader>j', '<Cmd>bprevious<CR>')
+vim.keymap.set('n', '<leader>k', '<Cmd>bnext<CR>')
+vim.keymap.set('n', '<leader>t', '<Cmd>b#<CR>')
+vim.keymap.set('n', '<leader>d', '<Cmd>bdelete<CR>')
 
 vim.keymap.set('n', '<leader>h', '<C-w>h')
 vim.keymap.set('n', '<leader>l', '<C-w>l')
 
 -- saving --
 
-vim.keymap.set('n', 'W', ':w<CR>')
-vim.keymap.set('n', 'Q', ':q<CR>')
+vim.keymap.set('n', 'W', '<Cmd>w<CR>')
+vim.keymap.set('n', 'Q', '<Cmd>q<CR>')
 
 vim.keymap.set('i', 'jk', '<Esc>')
 vim.keymap.set('i', 'kj', '<Esc>')
+
 
 -- lsp testing --
 

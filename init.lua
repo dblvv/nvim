@@ -23,8 +23,13 @@ vim.g.mapleader = " "
 vim.keymap.set({ 'n', 'v' }, '<Space>', '<Nop>', { silent = true })
 vim.opt.nu = true
 vim.opt.relativenumber = true
+vim.opt.colorcolumn = "80"
+vim.opt.signcolumn = "yes"
 vim.opt.incsearch = true
 vim.opt.hlsearch = false
+
+vim.opt.title = true
+vim.opt.titlestring = " "
 
 -- substitute preview window
 vim.opt.inccommand = "split"
@@ -56,8 +61,8 @@ vim.opt.whichwrap = "<,>,[,]"
 --    vert = '❘'
 -- }
 
-vim.opt.list = true
-vim.opt.listchars = { leadmultispace = "┃   ", tab = "┃ ",}
+-- vim.opt.list = true
+-- vim.opt.listchars = { leadmultispace = "┃   ", tab = "┃ ",}
 -- vim.cmd[[hi WinSeparator guibg=None]]
 vim.api.nvim_set_hl(0, "WinSeparator", { bg = "None" })
 vim.cmd [[autocmd! ColorScheme * highlight NormalFloat guibg=#000000]]
